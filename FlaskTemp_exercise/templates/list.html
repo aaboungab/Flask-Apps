@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
+<li>{{names}}</li>
+<br>
 {%for name in names%}
 {%if 'b' in name%}
 <li>{{name}}</li>
