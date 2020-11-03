@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__) 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:11@34.89.108.42/DBL_relationship' 
+app.config['SQLALCHEMY_DATABASE_URI'] = '' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 db = SQLAlchemy(app) 
 
