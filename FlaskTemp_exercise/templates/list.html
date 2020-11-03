@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block body %}
+{%for name in names%}
+{%if 'b' in name%}
+<li>{{name}}</li>
+{%endif%}
+{%endfor%}
+{% endblock body %}
