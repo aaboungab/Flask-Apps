@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy # Import SQLAlchemy class
 
 app = Flask(__name__) # create Flask object
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:11@34.89.108.42/Flaskapp' # Set the connection string to connect to the database
+app.config['SQLALCHEMY_DATABASE_URI'] = '' # Set the connection string to connect to the database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 db = SQLAlchemy(app) # create SQLALchemy object
 
