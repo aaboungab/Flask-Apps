@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for
 
 from application import app,db
 from application.models import ToDoList
+from application.forms import TodoForm
 
 @app.route('/')
 def index():
@@ -9,12 +10,15 @@ def index():
     return render_template('index.html', all_ToDo=all_ToDo)
 
 
-@app.route('/add')
+@app.route('/add', methods = ['GET', 'POST'])
 def add():
-    new_ToDo = ToDoList(name='New ToDo')
-    db.session.add(new_ToDo)
-    db.session.commit()
-    return redirect(url_for('index'))
+    form = TodoForm()
+    if form.validate_on_submit():
+        new_todo = ToDoList(name=form.task.data)  
+        db.session.add(new_todo)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('add.html', form=form)
 
 @app.route('/complete/<int:ToDo_id>')
 def complete(ToDo_id):
@@ -31,10 +35,10 @@ def incomplete(ToDo_id):
     return redirect(url_for('index'))
 
 
-@app.route('/update/<task>')
-def update(task):
-    ToDo_to_update = ToDoList.query.first()
-    ToDo_to_update.task = task
+@app.route('/update/<int:ToDo_id>/<task>')
+def update(task, ToDo_id):
+    ToDo_to_update = ToDoList.query.get(ToDo_id)
+    ToDo_to_update.name = task
     db.session.commit()
     return redirect(url_for('index')) 
 

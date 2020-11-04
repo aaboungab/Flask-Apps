@@ -1,6 +1,15 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+
 {% for ToDo in all_ToDo %}
 
 {{ ToDo.name }} <br>
-{{ ToDo.complete}}<br><br>
+{% if ToDo.complete %}
+&#9989
+{% else %}
+&#10060
+{% endif %}<br><br>
 
 {% endfor %}
+
+{% endblock body_content %}
