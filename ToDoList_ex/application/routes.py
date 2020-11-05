@@ -35,12 +35,15 @@ def incomplete(ToDo_id):
     return redirect(url_for('index'))
 
 
-@app.route('/update/<int:ToDo_id>/<task>')
-def update(task, ToDo_id):
+@app.route('/update/<int:ToDo_id>', methods=['GET', 'POST'])
+def update(ToDo_id):
+    form = TodoForm()
     ToDo_to_update = ToDoList.query.get(ToDo_id)
-    ToDo_to_update.name = task
-    db.session.commit()
-    return redirect(url_for('index')) 
+    if form.validate_on_submit():
+        ToDo_to_update.name = form.task.data
+        db.session.commit()
+        return redirect(url_for('index')) 
+    return render_template('update.html', form=form)
 
 @app.route('/delete/<int:ToDo_id>')
 def delete(ToDo_id):
