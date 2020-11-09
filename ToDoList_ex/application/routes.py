@@ -1,13 +1,27 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 
 from application import app,db
 from application.models import ToDoList
-from application.forms import TodoForm
+from application.forms import TodoForm, OrderForm
 
-@app.route('/')
+@app.route('/', methods = ['POST', 'GET'])
 def index():
-    all_ToDo = ToDoList.query.all()
-    return render_template('index.html', all_ToDo=all_ToDo)
+    form = OrderForm()
+    totals = {
+	     'number_completed': ToDoList.query.filter_by(complete=True).count() ,
+	     'total': ToDoList.query.count()
+	     }
+    if form.order.data == "new":
+        all_ToDo = ToDoList.query.order_by(ToDoList.id.desc()).all()
+    elif form.order.data == "old":
+        all_ToDo = ToDoList.query.order_by(ToDoList.id).all()
+    elif form.order.data == "completed":
+        all_ToDo = ToDoList.query.order_by(ToDoList.complete.desc()).all()
+    elif form.order.data == "incompleted":
+        all_ToDo = ToDoList.query.order_by(ToDoList.complete).all()
+    else:
+        all_ToDo = ToDoList.query.all()
+    return render_template('index.html', all_ToDo=all_ToDo, form=form, totals=totals)
 
 
 @app.route('/add', methods = ['GET', 'POST'])
@@ -51,4 +65,3 @@ def delete(ToDo_id):
     db.session.delete(ToDo_to_delete)
     db.session.commit()
     return redirect(url_for('index'))
-

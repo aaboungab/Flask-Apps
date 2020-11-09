@@ -1,7 +1,21 @@
 {% extends 'layout.html' %}
 {% block body_content %}
-{% for ToDo in all_ToDo %}
 
+<form method='POST' action='{{ url_for('index') }}'>
+	{{ form.order.label }} {{ form.order }}
+	<br>
+	{{ form.submit }}
+</form>
+
+{% if totals['total'] == 0 %}
+<h3> Add some Todos</h3>
+{% elif totals['number_completed'] == totals['total'] %}
+<h3> Good Job! </h3>
+{% elif totals['number_completed'] < totals['total'] - 3 %}
+<h3>You're falling behind</h3>
+{% endif %}
+
+{% for ToDo in all_ToDo %}
 {{ ToDo.name }} 
 <form method= '' action='{{ url_for('update', ToDo_id=ToDo.id)}}'>
 	<button>Update</button>
@@ -21,9 +35,8 @@
 
 {% if ToDo.complete %} 
 &#9989
-{% else %} 
+{%else%}
 &#10060
-
 {% endif %}<br><br>
 
 {% endfor %}

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired, ValidationError
 
 from application.models import ToDoList
@@ -22,3 +22,13 @@ class TodoForm(FlaskForm):
                 ]
            )
     submit = SubmitField('Add Todo') 
+
+class OrderForm(FlaskForm):
+    order = SelectField('Order', 
+	    choices=[('new','Most Recent'),
+	            ('old','Oldest'),
+	            ('completed','Completed'), 
+	            ('incompleted','Incompleted')
+		]
+	    )
+    submit = SubmitField('Select Order')
